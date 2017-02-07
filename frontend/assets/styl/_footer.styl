@@ -1,0 +1,21 @@
+*
+  margin: 0
+
+html, body
+  height: 100%
+
+.wrapper
+  min-height: 100%
+  /* equal to footer height */
+  margin-bottom: -3.3rem
+
+.wrapper:after
+  content: ""
+  display: block
+
+.footer,
+.wrapper:after
+  height: 3.3rem
+
+.footer
+  background: orange

@@ -15,6 +15,7 @@ import rename       from 'gulp-rename';
 import uglify       from 'gulp-uglify';
 import htmlmin      from 'gulp-htmlmin';
 import pug          from 'gulp-pug';
+import sort         from 'gulp-sort';
 import del          from 'del';
 
 const dirs = {
@@ -42,8 +43,8 @@ gulp.task('default',
  */
 gulp.task('watch', () => {
     gulp.watch(pugPath.watch, ['pug']);
-gulp.watch(stylPath.watch, ['stylus']);
-gulp.watch(scriptsPath.from, ['scripts']);
+    gulp.watch(stylPath.watch, ['stylus']);
+    gulp.watch(scriptsPath.from, ['scripts']);
 });
 
 /**
@@ -87,18 +88,31 @@ gulp.task('stylus', () => {
         'include css': true
     };
 
-del([cleanPath.css], {force: true});
+    del([cleanPath.css], {force: true});
 
-return gulp.src(stylPath.from)
-    .pipe(stylus(_options))
-    .on('error', console.log)
-    .pipe(autoprefixer({
-        browsers: ['last 2 versions', 'Firefox 49', 'Opera 41', 'ie 11', 'iOS 10', 'Safari 10']
-    }))
-    .pipe(csso())
-    .pipe(concat('main.min.css'))
-    .pipe(gulp.dest(stylPath.to))
-    .pipe(notify({ message: 'Css task complete' }));
+    return gulp.src(stylPath.from)
+        .pipe(stylus({
+            compress: false,
+            paths: [dirs.from],
+            'include css': true
+        }))
+        .on('error', console.log)
+        .pipe(concat('main.css'))
+        .pipe(gulp.dest(stylPath.to))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Firefox 49', 'Opera 41', 'ie 11', 'iOS 10', 'Safari 10']
+        }))
+        .pipe(stylus(_options))
+        .on('error', console.log)
+        .pipe(concat('main.css'))
+        .pipe(gulp.dest(stylPath.to))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions', 'Firefox 49', 'Opera 41', 'ie 11', 'iOS 10', 'Safari 10']
+        }))
+        .pipe(csso())
+        .pipe(concat('main.min.css'))
+        .pipe(gulp.dest(stylPath.to))
+        .pipe(notify({ message: 'Css task complete' }));
 });
 
 /**
@@ -112,18 +126,16 @@ const imgPath = {
 gulp.task('imagemin', () => {
     del([cleanPath.img], {force: true});
 
-return gulp.src(imgPath.from)
-    .pipe(imagemin({
-        plugins: [
-            imagemin.svgo({})
-        ],
-        progressive: true,
-        interlaced: true
-    }))
-    .pipe(gulp.dest(imgPath.to))
+    return gulp.src(imgPath.from)
+        .pipe(imagemin({
+            plugins: [
+                imagemin.svgo({})
+            ],
+            progressive: true,
+            interlaced: true
+        }))
+        .pipe(gulp.dest(imgPath.to))
 });
-
-[1,2,3].map(n => n + 1);
 
 /**
  * Build libs
@@ -136,13 +148,14 @@ const libsPath = {
 gulp.task('libs', () => {
     del([cleanPath.libs], {force: true});
 
-return gulp.src(libsPath.from)
-    .pipe(concat('libs.js'))
-    .pipe(gulp.dest(libsPath.to))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(uglify())
-    .pipe(gulp.dest(libsPath.to))
-    .pipe(notify({ message: 'Libs task complete' }));
+    return gulp.src(`${dirs.from}libs/**/*.js`)
+        .pipe(sort())
+        .pipe(concat('libs.js'))
+        .pipe(gulp.dest(libsPath.to))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(uglify())
+        .pipe(gulp.dest(libsPath.to))
+        .pipe(notify({ message: 'Libs task complete' }));
 });
 
 /**
@@ -155,17 +168,21 @@ const scriptsPath = {
 
 gulp.task('scripts', () => {
     return gulp.src(scriptsPath.from)
+        /*
         .pipe(babel({
             presets: ['es2015'],
         }))
+        */
         .pipe(concat('main.js'))
         .pipe(gulp.dest(scriptsPath.to))
         .pipe(rename({suffix: '.min'}))
+        /*
         .pipe(babel({
             minified: true,
             compact: true,
             comments: false
         }))
+        */
         .pipe(gulp.dest(scriptsPath.to))
         .pipe(notify({ message: 'Scripts task complete' }));
 });
@@ -181,8 +198,8 @@ const fontsPath = {
 gulp.task('fonts', () => {
     del([cleanPath.fonts], {force: true});
 
-return gulp.src(fontsPath.from)
-    .pipe(gulp.dest(fontsPath.to));
+    return gulp.src(fontsPath.from)
+        .pipe(gulp.dest(fontsPath.to));
 });
 
 /**
@@ -197,14 +214,14 @@ const pugPath = {
 gulp.task('pug', () => {
     del([cleanPath.html], {force: true});
 
-return gulp.src(pugPath.from)
-    .pipe(pug({
-        basedir: '../',
-        pretty: true
-    }))
-    .pipe(htmlmin({
-        collapseWhitespace: true
-    }))
-    .pipe(gulp.dest(pugPath.to))
-    .pipe(notify({ message: 'Pug task complete' }));
+    return gulp.src(pugPath.from)
+        .pipe(pug({
+            basedir: '../',
+            pretty: true
+        }))
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(gulp.dest(pugPath.to))
+        .pipe(notify({ message: 'Pug task complete' }));
 });

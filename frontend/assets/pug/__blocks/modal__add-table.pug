@@ -1,0 +1,26 @@
+#addTable.modal.fade(tabindex='-1' role='dialog' aria-labelledby='addTableLabel' aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5.modal-title.text-title Set the parameters
+                button.button.close(type='button' data-dismiss='modal' aria-label='Close' data-action='clear')
+                    span(aria-hidden='true') &times;
+            form.form__add-table
+                .modal-body
+                    .form-inline
+                        .layout
+                            .form-group
+                                label.label.label-form-group.text(for='rows') Rows
+                                input#rows.input.input-form-group.form-control.mx-sm-4(type='text' aria-describedby='rowsHelpInline' data-value='rows' required value='5')
+                                small#rowsHelpInline.text-muted Number of rows table.
+                            .form-group
+                                label.label.label-form-group.text(for='meta') Meta
+                                input#meta.input.input-form-group.form-control.mx-sm-4(type='text' aria-describedby='metaHelpInline' data-value='meta')
+                                small#metaHelpInline.text-muted Three classes of css, separated by a comma and space (optional).
+                            .form-group
+                                label.label.label-form-group.text(for='fields') Fields
+                                textarea#fields.input.input-form-group.form-control.mx-sm-4(aria-describedby='fieldsHelpInline' rows='3' data-value='fields' required value='name-1, name-2, name-3, name-4, name-5') name-1, name-2, name-3, name-4, name-5
+                                small#fieldsHelpInline.text-muted Аn array of column names, separated by a comma and space.
+                .modal-footer
+                    button.button.btn.btn-primary.text(type='submit' data-action='add') Add
+                    button.button.btn.btn-secondary.text(type='button' data-dismiss='modal' data-action='clear') Cancel

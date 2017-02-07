@@ -47,6 +47,10 @@
 
 })(jQuery);
 
+/**
+ * Класс Table (при удалении из DOM остаётся в памяти объекта)
+ * Переменные и атрибуты со значением $ - объекты jQuery
+ */
 var objTables = {},
     count     = 1;
 
@@ -79,6 +83,9 @@ var Table = function(name, rows, fields, meta) {
     count++;
 };
 
+/**
+ * Создание html таблицы
+ */
 Table.prototype.create = function() {
     var table$   = $('<table class="table table-bordered class-table" data-table='+ this.name +'>'),
         caption$ = $('<caption class="caption">').text(this.name),
@@ -115,6 +122,9 @@ Table.prototype.create = function() {
     return table$;
 };
 
+/**
+ * Вставка в конец DOM-элемента (атрибут target$)
+ */
 Table.prototype.insertTable = function(target$) {
     target$.append(
         $('<div class="layout">').append($(this.table), $(this.controlPanel))
@@ -124,10 +134,12 @@ Table.prototype.insertTable = function(target$) {
     this.update($(this.table));
 };
 
+/**
+ * Получение json (если не указан атрибут) / присвоение в this.json
+ */
 Table.prototype.get_data = function(table$) {
     if ( !arguments.length ) {
         console.log(this.json);
-        alert(this.json);
         return this.json;
     }
 
@@ -139,13 +151,17 @@ Table.prototype.get_data = function(table$) {
         arr[i] = {};
 
         $(this).find('td').each(function(cellIndex) {
-            arr[i][$(th$[cellIndex]).text()] = $(this).text();
+            arr[i][$(th$[cellIndex]).text()] =
+                ( $(this).children('input').length ) ? $(this).children('input').text : $(this).text();
         });
     });
 
     this.json = JSON.stringify(arr, '', 4);
 };
 
+/**
+ * Сохранение таблицы в global / DOM
+ */
 Table.prototype.save = function(table$) {
     table$.find('td > input').each(function() {
         var self$ = $(this),
@@ -157,13 +173,23 @@ Table.prototype.save = function(table$) {
     this.update(table$);
 };
 
+/**
+ * Очистка данных таблицы
+ */
 Table.prototype.clean = function(table$)  {
     this.table.find('td').text('');
     this.update(table$);
 };
 
+/**
+ * Добавление строки в конец
+ */
 Table.prototype.addRow = function(table$) {
-    var tr$ = $('<tr>');
+    var tr$ = $('<tr>'),
+        index = table$.find('tbody tr').length;
+
+    if ( this.meta && this.meta[1] && index % 2 != 0 ) tr$.addClass(this.meta[1]);
+    if ( this.meta && this.meta[2] && index % 2 == 0 ) tr$.addClass(this.meta[2]);
 
     for (var i = 0; i < this.fields.length; i++) {
         tr$.append('<td>');
@@ -174,6 +200,10 @@ Table.prototype.addRow = function(table$) {
     this.update(table$);
 };
 
+/**
+ * Добавление строки после указанной в input (строится всегда рядом с
+ * соответствующей кнопкой - this.controlPanel)
+ */
 Table.prototype.addRowPos = function(table$, pos) {
     var tr$ = $('<tr>'),
         trs$ = table$.find('tbody tr');
@@ -185,20 +215,40 @@ Table.prototype.addRowPos = function(table$, pos) {
     if ( pos == this.rows ) table$.find('tbody').append(tr$);
     else if ( pos <= this.rows && pos >= 0 ) $(trs$[pos]).before(tr$);
 
+    trs$ = table$.find('tbody tr');
+
+    if ( this.meta && this.meta.length > 1 ) {
+        trs$.removeClass();
+
+        for (i = 0; i < trs$.length; i++) {
+            if (this.meta[1] && i % 2 != 0) $(trs$[i]).addClass(this.meta[1]);
+            if (this.meta[2] && i % 2 == 0) $(trs$[i]).addClass(this.meta[2]);
+        }
+    }
+
     this.update(table$);
 };
 
+/**
+ * Удаление таблицы из DOM, сохраняется в изначальном объекте
+ */
 Table.prototype.delTable = function(table$) {
     table$.parents('.layout').remove();
     // delete objTables[this.name];
 };
 
+/**
+ * Обновление DOM / объекта данных
+ */
 Table.prototype.update = function(table$) {
     this.table = table$;
     this.rows = table$.find('tbody')[0].rows.length;
     this.get_data(table$, true);
 };
 
+/**
+ * Добавление событий на созданную таблицу и элемент управления
+ */
 Table.prototype.addEvents = function() {
     var T = this;
 
@@ -228,6 +278,7 @@ Table.prototype.addEvents = function() {
                     T.save(table$);
                     break;
                 case 'get-data':
+                    T.save(table$);
                     T.get_data();
                     break;
                 case 'clean-table':

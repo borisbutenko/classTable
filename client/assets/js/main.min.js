@@ -92,10 +92,15 @@ Table.prototype.create = function() {
         tbodyTr$.append('<td>');
     }
 
+    if ( this.meta && this.meta[0] ) theadTr$.addClass(this.meta[0]);
+
     thead$.append(theadTr$);
 
     for (i = 0; i < this.rows; i++) {
-        tbody$.append(tbodyTr$.clone());
+        var nextTr$ = tbodyTr$.clone();
+        if ( this.meta && this.meta[1] && i % 2 != 0 ) nextTr$.addClass(this.meta[1]);
+        if ( this.meta && this.meta[2] && i % 2 == 0 ) nextTr$.addClass(this.meta[2]);
+        tbody$.append(nextTr$);
     }
 
     table$.append(

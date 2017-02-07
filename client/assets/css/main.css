@@ -8263,6 +8263,15 @@ small {
   padding: 0.5rem;
   vertical-align: middle;
 }
+.tr-title {
+  background-color: #bbf;
+}
+.tr-odd {
+  background-color: #fbb;
+}
+.tr-even {
+  background-color: #c0ffbb;
+}
 .text {
   font-size: 1.2rem;
 }

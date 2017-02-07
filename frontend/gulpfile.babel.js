@@ -219,9 +219,9 @@ gulp.task('pug', () => {
             basedir: '../',
             pretty: true
         }))
-        .pipe(htmlmin({
-            collapseWhitespace: true
-        }))
+        // .pipe(htmlmin({
+        //     collapseWhitespace: true
+        // }))
         .pipe(gulp.dest(pugPath.to))
         .pipe(notify({ message: 'Pug task complete' }));
 });

@@ -1,1 +1,64 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content=""><meta name="keywords" content=""><title>Class Table</title><link type="text/css" rel="stylesheet" href="assets/css/main.min.css"><script src="assets/libs/libs.min.js"></script><script src="assets/js/main.min.js"></script></head><body><div class="wrapper"><header class="header"><nav class="navbar navbar-toggleable-md navbar-light bg-faded"><a class="navbar-brand text-title" href="#0">Class Table (Header)</a></nav></header><main class="main"><section class="section section__table"></section><div class="layout"><hr class="my-4"><button class="button btn btn-success text" type="button" data-toggle="modal" data-target="#addTable">Add table</button></div><div class="modal fade" id="addTable" tabindex="-1" role="dialog" aria-labelledby="addTableLabel" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title text-title">Set the parameters</h5><button class="button close" type="button" data-dismiss="modal" aria-label="Close" data-action="clear"><span aria-hidden="true">&times;</span></button></div><form class="form__add-table"><div class="modal-body"><div class="form-inline"><div class="layout"><div class="form-group"><label class="label label-form-group text" for="rows">Rows</label><input class="input input-form-group form-control mx-sm-4" id="rows" type="text" aria-describedby="rowsHelpInline" data-value="rows" required value="5"><small class="text-muted" id="rowsHelpInline">Number of rows table.</small></div><div class="form-group"><label class="label label-form-group text" for="meta">Meta</label><input class="input input-form-group form-control mx-sm-4" id="meta" type="text" aria-describedby="metaHelpInline" data-value="meta" value="tr-title, tr-even, tr-odd"><small class="text-muted" id="metaHelpInline">Three classes of css, separated by a comma and space (optional).</small></div><div class="form-group"><label class="label label-form-group text" for="fields">Fields</label><textarea class="input input-form-group form-control mx-sm-4" id="fields" aria-describedby="fieldsHelpInline" rows="3" data-value="fields" required value="name-1, name-2, name-3, name-4, name-5">name-1, name-2, name-3, name-4, name-5</textarea><small class="text-muted" id="fieldsHelpInline">Аn array of column names, separated by a comma and space.</small></div></div></div></div><div class="modal-footer"><button class="button btn btn-primary text" type="submit" data-action="add">Add</button> <button class="button btn btn-secondary text" type="button" data-dismiss="modal" data-action="clear">Cancel</button></div></form></div></div></div></main></div><footer class="footer"><nav class="navbar navbar-toggleable-md navbar-light bg-faded footer__nav"><a class="navbar-brand text-title" href="#0">Class Table (I'm the Sticky Footer)</a></nav></footer></body></html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Class Table</title>
+    <link type="text/css" rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/libs/libs.min.js"></script>
+    <script src="assets/js/main.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="navbar navbar-toggleable-md navbar-light bg-faded"><a class="navbar-brand text-title" href="#0">Class Table (Header)</a></nav>
+      </header>
+      <main class="main">
+        <section class="section section__table"></section>
+        <div class="layout">
+          <hr class="my-4">
+          <button class="button btn btn-success text" type="button" data-toggle="modal" data-target="#addTable">Add table</button>
+        </div>
+        <div class="modal fade" id="addTable" tabindex="-1" role="dialog" aria-labelledby="addTableLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-title">Set the parameters</h5>
+                <button class="button close" type="button" data-dismiss="modal" aria-label="Close" data-action="clear"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <form class="form__add-table">
+                <div class="modal-body">
+                  <div class="form-inline">
+                    <div class="layout">
+                      <div class="form-group">
+                        <label class="label label-form-group text" for="rows">Rows</label>
+                        <input class="input input-form-group form-control mx-sm-4" id="rows" type="text" aria-describedby="rowsHelpInline" data-value="rows" required value="5"><small class="text-muted" id="rowsHelpInline">Number of rows table.</small>
+                      </div>
+                      <div class="form-group">
+                        <label class="label label-form-group text" for="meta">Meta</label>
+                        <input class="input input-form-group form-control mx-sm-4" id="meta" type="text" aria-describedby="metaHelpInline" data-value="meta" value="tr-title, tr-even, tr-odd"><small class="text-muted" id="metaHelpInline">Three classes of css, separated by a comma and space (optional).</small>
+                      </div>
+                      <div class="form-group">
+                        <label class="label label-form-group text" for="fields">Fields</label>
+                        <textarea class="input input-form-group form-control mx-sm-4" id="fields" aria-describedby="fieldsHelpInline" rows="3" data-value="fields" required value="name-1, name-2, name-3, name-4, name-5">name-1, name-2, name-3, name-4, name-5</textarea><small class="text-muted" id="fieldsHelpInline">Аn array of column names, separated by a comma and space.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="button btn btn-primary text" type="submit" data-action="add">Add</button>
+                  <button class="button btn btn-secondary text" type="button" data-dismiss="modal" data-action="clear">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="footer">
+      <nav class="navbar navbar-toggleable-md navbar-light bg-faded footer__nav"><a class="navbar-brand text-title" href="#0">Class Table (I'm the Sticky Footer)</a></nav>
+    </footer>
+  </body>
+</html>
